@@ -19,9 +19,12 @@ setInterval(atualizarRelogio, 1000)
 // Chama a função uma vez para garantir que o relógio esteja correto imediatamente
 atualizarRelogio()
 
-let tarefass = []
-let contador = 1 //contador para enumerar as tarefas
-
+let tarefasUrgentes = []
+let tarefasModeradas = []
+let metas = []
+let contadorModeradas = 1
+let contadorMetas = 1
+let contadorUrgentes = 1 //contador para enumerar as tarefas
 
 // adicionar tarefas
 function adicionar(){
@@ -36,24 +39,45 @@ function adicionar(){
 
         if(categoria[0].checked){
             categoriaId = 'taf'
+            tarefasUrgentes.push({numero: contadorUrgentes, tarefa: minhas})
+            contadorUrgentes++;
             window.alert('tarefa adicionada!')
         }else if(categoria[1].checked){
             categoriaId = 'mod'
+            tarefasModeradas.push({numero: contadorModeradas, tarefa: minhas})
+            contadorModeradas++;
             window.alert('tarefa adicionada!')
         }else if(categoria[2].checked){
             categoriaId = 'met'
+            metas.push({numero: contadorMetas, tarefa: minhas})
+            contadorMetas++;
             window.alert('Meta adicionada!')
         }
         if(categoriaId){
-            let tarefas = document.getElementById(categoriaId)
-            tarefass.push({numero: contador, tarefa: minhas})//push para levar pro array 
-            tarefas.innerHTML = tarefass.map(item => `${item.numero} - ${item.tarefa}`).join("<br>");//join para pular linha sem usar html
-            contador++;
+            atualizarTarefas(categoriaId)
             incluir.value = ""
         }else{
             window.alert('Por favor selecione uma categoria.');
         }
     }
+}
+
+// Referente a atualizar as tarefas
+function atualizarTarefas(categoriaId){
+    let tarefasElement = document.getElementById(categoriaId)
+    let tarefasArray = []
+
+    if(categoriaId === 'taf'){
+        tarefasArray = tarefasUrgentes
+    } else if(categoriaId === 'mod'){
+        tarefasArray = tarefasModeradas
+    } else if(categoriaId === 'met'){
+        tarefasArray = metas
+    }
+
+     tarefasArray.forEach((item, index) => { item.numero = index + 1}); // Reordena os contadores 
+
+    tarefasElement.innerHTML = tarefasArray.map(item => `${item.numero} - ${item.tarefa}`).join("<br>")
 }
 
 // excluir tarefas
@@ -65,34 +89,40 @@ function excluir(){
     if((isNaN(apagado) || apagado <= 0)){
         window.alert('Digite o nome da tarefa a ser excluida.')
     }else{
-       let index = tarefass.findIndex(item => item.numero === apagado) //procura a tarefa no array
+       let index = -1
        let categoria = document.getElementsByName('list')
        let categoriaId = ''
 
         if(categoria[0].checked){
             categoriaId = 'taf'
-            window.alert('Tarefa excluida!')
+            index = tarefasUrgentes.findIndex(item => item.numero === apagado)
         }else if(categoria[1].checked){
             categoriaId = 'mod'
-            window.alert('Tarefa excluida!')
+            index = tarefasModeradas.findIndex(item => item.numero === apagado)
         }else if(categoria[2].checked){
             categoriaId = 'met'
-            window.alert('Meta excluida!')
+            index = metas.findIndex(item => item.numero === apagado)
         }
-        if(categoriaId){
-            let tarefas = document.getElementById(categoriaId)
-            if(index !== -1){
-                tarefass.splice(index, 1)
-                tarefas.innerHTML= tarefass.map(item => `${item.numero} - ${item.tarefa}`).join("<br>")
-                if(tarefass.length === 0){
-                    contador = 1
-                }else{
-                window.alert('Não encontrada!')
+        if(categoriaId && index !== -1){
+            if(categoriaId === 'taf'){
+                tarefasUrgentes.splice(index, 1)
+                window.alert('Tarefa excluída!')
+            }else if(categoriaId === 'mod'){
+                tarefasModeradas.splice(index, 1)
+                window.alert('Tarefa excluída!')
+            } else if(categoriaId === 'met'){
+                metas.splice(index, 1)
+                window.alert('Meta excluída!')
             }
-        }else{
+            atualizarTarefas(categoriaId)
+            if(tarefasUrgentes.length === 0 && tarefasModeradas.length === 0 && metas.length === 0){
+                contadorUrgentes = 1
+                contadorModeradas = 1
+                contadorMetas = 1
+            }
+        } else {
             window.alert('Por favor selecione uma categoria.')
         }
-       }
     }
     apagar.value = ""
 }
