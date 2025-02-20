@@ -11,7 +11,7 @@
     <!--fim google fonts-->
     <title>Lista de tarefas</title>
 </head>
-<body>
+<body onload="atualizarRelogio()">
     <header>
         <div class="interface">
             <div class="cabecalho">
@@ -19,8 +19,8 @@
                     <h1>Lista de Tarefas</h1>
                     <p>Cada pequena tarefa concluída é um passo a mais para alcançar seus grandes sonhos. Continue firme!</p>
                     <div class="adicionar-tarefa">
-                        <input type="button" id="adicionar" value="+" onclick="adicionar()">
                         <input type="text" id="nova-tarefa" placeholder="Digite sua tarefa ou meta">
+                        <input type="button" id="adicionar" value="+" onclick="adicionar()">
                     </div>
                     <div class="destino-tarefa">
                         <input type="radio" name="list" id="urgentes" checked>
@@ -31,23 +31,26 @@
                         <label for="metas">Metas</label>
                     </div>
                     <div class="excluir-tarefas">
-                        <input type="button" id="excluir" value="--" onclick="excluir()">
                         <input type="text" id="excluir-tarefa" placeholder="Qual tarefa deseja excluir">
+                        <input type="button" id="excluir" value="--" onclick="excluir()">
+                    </div>
+                </div>
+                <div class="horario">
+                    <div class="horas">
+                        <div class="minutos">
+                            <div id="segundos">
+    
+                            </div>
+                            <div id="foto">
+                                <img id="imagem" src="imagens/fotomanha.jpg.jpg" alt="Foto sol da manhã" width="150px" height="150px">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
     <main>
-        <section>
-            <div class="horas">
-                <div class="minutos">
-                    <div id="segundos">
-
-                    </div>
-                </div>
-            </div>
-        </section>
         <section>
             <h1>Controle de Tarefas</h1>
             <h4>A disciplina é a ponte entre seus objetivos e suas realizações. Mantenha o foco!</h4>

@@ -1,9 +1,22 @@
 function atualizarRelogio(){
 var controleHoras = document.getElementById('segundos')
+var img = document.getElementById('imagem')
 var data = new Date()
 var minutos = data.getMinutes()
 var hora = data.getHours()
 var Segundos = data.getSeconds()
+
+if(hora >= 0 && hora < 12) {
+    img.src = 'imagens/fotomanha.jpg.jpg'
+    document.body.style.background = '#e2cd9f'
+}else if(hora >= 12 && hora <= 18){
+    img.src = 'imagens/fototarde.jpg.jpg'
+    document.body.style.background = '#b9846f'
+    document.body.style.color = 'white'
+}else {
+    img.src = 'imagens/fotonoite.jpg.jpg'
+    document.body.style.background = '#515154'
+}
 
 // Adiciona um zero à esquerda para valores menores que 10
 if(minutos < 10) minutos = '0' + minutos
